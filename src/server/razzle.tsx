@@ -46,7 +46,7 @@ export default ( server: Express ) => {
     );
   };
 
-  server.use("/static", express.static('build/public/static'));
+  server.use("/static", express.static("build/public/static"));
   
   server.get("/*", serveIndex);
 

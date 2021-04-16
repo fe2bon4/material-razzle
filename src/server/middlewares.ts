@@ -3,10 +3,9 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import logger from "./logger";
 
 const log_middleware = (req: Request, res: Response, next: NextFunction) => {
-  const { method, url } = req;
+  const { method, originalUrl } = req;
   const { statusCode } = res;
-  logger.info(`${statusCode} ${method} ${url}`);
-
+  logger.info(`${statusCode} ${method} ${originalUrl}`);
   next();
 };
 
