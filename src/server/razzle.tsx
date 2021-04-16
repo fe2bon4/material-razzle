@@ -5,20 +5,13 @@ import { StaticRouter } from 'react-router-dom';
 import App from '../browser/App';
 
 export default ( server: Express ) => {
-
-
-  const {
-    RAZZLE_PUBLIC_DIR,
-  } = process.env;
-
-
+  
   let assets: any;
 
   const syncLoadAssets = () => {
     assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
   };
   syncLoadAssets();
-
 
   const serveIndex = (req: Request, res: Response) => {
     const context = {};
@@ -38,10 +31,10 @@ export default ( server: Express ) => {
           ${
             assets.client.css
               ? `<link rel="stylesheet" href="${assets.client.css}">`
-              : ''
+              : ""
           }
             ${
-              process.env.NODE_ENV === 'production'
+              process.env.NODE_ENV === "production"
                 ? `<script src="${assets.client.js}" defer></script>`
                 : `<script src="${assets.client.js}" defer crossorigin></script>`
             }
@@ -53,11 +46,11 @@ export default ( server: Express ) => {
     );
   };
 
-  server.use("/static", express.static("build"));
+  server.use("/static", express.static('build/public/static'));
+  
+  server.get("/*", serveIndex);
 
-  server.get('/*', serveIndex);
+  server.disable("x-powered-by");
 
-  server.disable('x-powered-by');
 
-  server.use(express.static(RAZZLE_PUBLIC_DIR!));
 }
