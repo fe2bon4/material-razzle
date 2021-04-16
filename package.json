@@ -12,6 +12,8 @@
     "postinstall": "chmod +x ./bin/protoc && node ./scripts/generate-proto.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@xstate/react": "^1.2.2",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.6",

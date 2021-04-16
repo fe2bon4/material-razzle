@@ -53,6 +53,8 @@ export default ( server: Express ) => {
     );
   };
 
+  server.use("/static", express.static("build"));
+
   server.get('/*', serveIndex);
 
   server.disable('x-powered-by');
