@@ -26,10 +26,10 @@ const auth_middleware = (req: Request, res: Response, next: NextFunction) => {
     .split(":");
 
   if (
-    login &&
-    password &&
-    login === BASIC_AUTH_USERNAME &&
-    password === BASIC_AUTH_PASSWORD
+    !login ||
+    !password ||
+    login !== BASIC_AUTH_USERNAME ||
+    password !== BASIC_AUTH_PASSWORD
   ) {
     // Access granted...
     return next();
