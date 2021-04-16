@@ -1,6 +1,12 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import logger from "./logger";
+const {
+  BASIC_AUTH_ENABLE = undefined,
+  BASIC_AUTH_USERNAME = "",
+  BASIC_AUTH_PASSWORD = "",
+} = process.env;
+
 
 const log_middleware = (req: Request, res: Response, next: NextFunction) => {
   const { method, originalUrl } = req;
@@ -10,12 +16,6 @@ const log_middleware = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const auth_middleware = (req: Request, res: Response, next: NextFunction) => {
-  const {
-    BASIC_AUTH_ENABLE = undefined,
-    BASIC_AUTH_USERNAME = "",
-    BASIC_AUTH_PASSWORD = "",
-  } = process.env;
-
   if (!BASIC_AUTH_ENABLE) {
     return next();
   }
