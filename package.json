@@ -7,9 +7,7 @@
     "start": "yarn start:tsc & razzle start",
     "build": "tsc -b && razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production pm2-runtime build/server.js",
-    "generate-proto": "node ./scripts/generate-proto.js",
-    "postinstall": "chmod +x ./bin/protoc && node ./scripts/generate-proto.js"
+    "start:prod": "NODE_ENV=production pm2-runtime build/server.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -22,7 +20,6 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "socket.io-client": "2.4.0",
-    "ts-protoc-gen": "^0.14.0",
     "winston": "^3.3.3",
     "xstate": "^4.16.2"
   },
