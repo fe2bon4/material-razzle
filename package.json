@@ -13,6 +13,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@xstate/react": "^1.2.2",
+    "bluebird": "^3.7.2",
     "express": "^4.17.1",
     "pm2": "^4.5.4",
     "react": "^16.13.1",
