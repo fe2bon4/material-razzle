@@ -12,3 +12,7 @@ public/static
 .env.test.local
 .env.production.local
 *.lock
+
+
+.env
+.env.*

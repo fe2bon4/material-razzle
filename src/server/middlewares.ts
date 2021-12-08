@@ -1,17 +1,17 @@
-import express, { Express, Request, Response, NextFunction } from "express";
-import { createProxyMiddleware } from "http-proxy-middleware";
-import logger from "./logger";
+import express, { Express, Request, Response, NextFunction } from 'express';
+import logger from './logger';
 const {
   BASIC_AUTH_ENABLE = undefined,
-  BASIC_AUTH_USERNAME = "",
-  BASIC_AUTH_PASSWORD = "",
+  BASIC_AUTH_USERNAME = '',
+  BASIC_AUTH_PASSWORD = '',
 } = process.env;
 
-
 const log_middleware = (req: Request, res: Response, next: NextFunction) => {
-  const { method, originalUrl } = req;
+  const { method, originalUrl, socket } = req;
   const { statusCode } = res;
-  logger.info(`${statusCode} ${method} ${originalUrl}`);
+  logger.info(
+    `${socket.remoteAddress} ${method} ${originalUrl} ${statusCode}  `
+  );
   next();
 };
 
@@ -20,10 +20,10 @@ const auth_middleware = (req: Request, res: Response, next: NextFunction) => {
     return next();
   }
 
-  const b64auth = (req.headers.authorization || "").split(" ")[1] || "";
-  const [login, password] = Buffer.from(b64auth, "base64")
+  const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+  const [login, password] = Buffer.from(b64auth, 'base64')
     .toString()
-    .split(":");
+    .split(':');
 
   if (
     !login ||
@@ -35,10 +35,10 @@ const auth_middleware = (req: Request, res: Response, next: NextFunction) => {
     return next();
   }
 
-  res.set("WWW-Authenticate", 'Basic realm="401"');
+  res.set('WWW-Authenticate', 'Basic realm="401"');
   return res.status(401).send({
-    code: "401",
-    message: "Authentication required.",
+    code: '401',
+    message: 'Authentication required.',
   });
 
   // -----------------------------------------------------------------------
@@ -48,7 +48,7 @@ const auth_middleware = (req: Request, res: Response, next: NextFunction) => {
 export default (server: Express) => {
   server.use(express.json());
 
-  server.use("*", log_middleware);
+  server.use('*', log_middleware);
 
-  server.use("*", auth_middleware);
+  if (BASIC_AUTH_ENABLE) server.use('*', auth_middleware);
 };

@@ -1,5 +1,11 @@
 import express from 'express';
-import logger from './server/logger'
+import logger from './server/logger';
+
+declare global {
+  interface Window {
+    env: any;
+  }
+}
 
 const { PORT = '3000' } = process.env;
 
@@ -17,10 +23,10 @@ if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
 }
 
-const port = parseInt(PORT, 10) ;
+const port = parseInt(PORT, 10);
 
 export default express()
   .use((req, res) => app.handle(req, res))
   .listen(port, () => {
-    logger.info(`> App started http://localhost:${port}`)
+    logger.info(`> App started http://localhost:${port}`);
   });
